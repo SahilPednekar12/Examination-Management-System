@@ -10,93 +10,142 @@ import java.sql.SQLException;
 
 public class Teacher_Registration extends JFrame {
 
-    private final JTextField txtID;
-    private final JTextField txtFirstName;
-    private final JTextField txtLastName;
-    private final JTextField txtDepartment;
-    private final JTextField txtSubject;
+    private final JTextField txtID, txtFirstName, txtLastName, txtDepartment, txtSubject;
     private final JPasswordField txtPassword;
-    private final JButton btnRegister;
-    private final JButton btnLogin;
+    private final JButton btnRegister, btnLogin;
 
     public Teacher_Registration() {
         setTitle("Teacher Registration");
-        setSize(400, 400);
+        setSize(650, 550);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new GridBagLayout());
-        
+        setLayout(new BorderLayout());
+
+        // Main panel with gradient background
+        JPanel mainPanel = new JPanel(new BorderLayout(20, 20)) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                int w = getWidth();
+                int h = getHeight();
+                Color color1 = new Color(70, 130, 180); // Steel Blue
+                Color color2 = new Color(255, 255, 255); // White
+                GradientPaint gp = new GradientPaint(0, 0, color1, 0, h, color2);
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, w, h);
+            }
+        };
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // Title
+        JLabel lblTitle = new JLabel("Teacher Registration");
+        lblTitle.setFont(new Font("Arial", Font.BOLD, 32));
+        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        lblTitle.setForeground(Color.WHITE);
+        lblTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+
+        // Form panel
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBackground(new Color(255, 255, 255, 220)); // Semi-transparent white
+        formPanel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(255, 255, 255, 100), 2),
+            BorderFactory.createEmptyBorder(20, 20, 20, 20)
+        ));
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel lblID = new JLabel("ID:");
-        txtID = new JTextField(20);
-        JLabel lblFirstName = new JLabel("First Name:");
-        txtFirstName = new JTextField(20);
-        JLabel lblLastName = new JLabel("Last Name:");
-        txtLastName = new JTextField(20);
-        JLabel lblDepartment = new JLabel("Department:");
-        txtDepartment = new JTextField(20);
-        JLabel lblSubject = new JLabel("Subject:");
-        txtSubject = new JTextField(20);
-        JLabel lblPassword = new JLabel("Password:");
-        txtPassword = new JPasswordField(20);
+        // Initialize components
+        txtID = createStyledTextField();
+        txtFirstName = createStyledTextField();
+        txtLastName = createStyledTextField();
+        txtDepartment = createStyledTextField();
+        txtSubject = createStyledTextField();
+        txtPassword = createStyledPasswordField();
 
-        btnRegister = new JButton("Register");
-        btnLogin = new JButton("Login");
+        // Add components to form
+        addFormRow(formPanel, gbc, "ID:", txtID, 0);
+        addFormRow(formPanel, gbc, "First Name:", txtFirstName, 1);
+        addFormRow(formPanel, gbc, "Last Name:", txtLastName, 2);
+        addFormRow(formPanel, gbc, "Department:", txtDepartment, 3);
+        addFormRow(formPanel, gbc, "Subject:", txtSubject, 4);
+        addFormRow(formPanel, gbc, "Password:", txtPassword, 5);
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        add(lblID, gbc);
-        gbc.gridx = 1;
-        add(txtID, gbc);
+        // Buttons panel
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        buttonPanel.setOpaque(false);
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        add(lblFirstName, gbc);
-        gbc.gridx = 1;
-        add(txtFirstName, gbc);
+        btnRegister = createStyledButton("Register");
+        btnLogin = createStyledButton("Login");
 
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        add(lblLastName, gbc);
-        gbc.gridx = 1;
-        add(txtLastName, gbc);
+        buttonPanel.add(btnRegister);
+        buttonPanel.add(btnLogin);
 
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        add(lblDepartment, gbc);
-        gbc.gridx = 1;
-        add(txtDepartment, gbc);
+        // Add components to main panel
+        mainPanel.add(lblTitle, BorderLayout.NORTH);
+        mainPanel.add(formPanel, BorderLayout.CENTER);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        add(lblSubject, gbc);
-        gbc.gridx = 1;
-        add(txtSubject, gbc);
+        // Add main panel to frame
+        add(mainPanel);
 
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        add(lblPassword, gbc);
-        gbc.gridx = 1;
-        add(txtPassword, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 6;
-        add(btnRegister, gbc);
-        gbc.gridx = 1;
-        gbc.gridy = 7;
-        add(btnLogin, gbc);
-
-        btnRegister.addActionListener((ActionEvent e) -> {
-            registerTeacher();
-        });
-
+        // Action listeners
+        btnRegister.addActionListener((ActionEvent e) -> registerTeacher());
         btnLogin.addActionListener((ActionEvent e) -> {
             new TeacherLogin().setVisible(true);
             dispose();
         });
+    }
+
+    private JTextField createStyledTextField() {
+        JTextField textField = new JTextField(20);
+        textField.setFont(new Font("Arial", Font.PLAIN, 14));
+        textField.setBackground(new Color(240, 248, 255)); // Alice Blue
+        textField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(70, 130, 180), 1),
+            BorderFactory.createEmptyBorder(5, 7, 5, 7)
+        ));
+        return textField;
+    }
+
+    private JPasswordField createStyledPasswordField() {
+        JPasswordField passwordField = new JPasswordField(20);
+        passwordField.setFont(new Font("Arial", Font.PLAIN, 14));
+        passwordField.setBackground(new Color(240, 248, 255)); // Alice Blue
+        passwordField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(70, 130, 180), 1),
+            BorderFactory.createEmptyBorder(5, 7, 5, 7)
+        ));
+        return passwordField;
+    }
+
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setForeground(Color.BLACK);
+        button.setBackground(new Color(70, 130, 180)); // Steel blue
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        return button;
+    }
+
+    private void addFormRow(JPanel panel, GridBagConstraints gbc, String labelText, JComponent component, int row) {
+        JLabel label = new JLabel(labelText);
+        label.setFont(new Font("Arial", Font.BOLD, 14));
+        label.setForeground(new Color(25, 25, 112)); // Midnight Blue
+
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.weightx = 0.1;
+        panel.add(label, gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 0.9;
+        panel.add(component, gbc);
     }
 
     private void registerTeacher() {
@@ -139,6 +188,11 @@ public class Teacher_Registration extends JFrame {
     }
 
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
         SwingUtilities.invokeLater(() -> new Teacher_Registration().setVisible(true));
     }
 }
