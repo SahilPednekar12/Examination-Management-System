@@ -171,7 +171,7 @@ public class Student_Registration extends JFrame {
         // Database connection and registration logic
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/JavaMini", "root", "system");
-            String sql = "INSERT INTO E_student (roll_no, first_name, last_name, department, class, username, s_password) " +
+            String sql = "INSERT INTO E_student (roll_no, s_first_name, s_last_name, s_department, class, s_user_name, s_password) " +
                          "VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, Integer.parseInt(rollNo));
