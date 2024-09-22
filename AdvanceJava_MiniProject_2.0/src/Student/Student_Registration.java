@@ -20,7 +20,7 @@ public class Student_Registration extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // Main panel with gradient background
+        
         JPanel mainPanel = new JPanel(new BorderLayout(20, 20)) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -37,14 +37,14 @@ public class Student_Registration extends JFrame {
         };
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Title
+        
         JLabel lblTitle = new JLabel("Student Registration");
         lblTitle.setFont(new Font("Arial", Font.BOLD, 32));
         lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
         lblTitle.setForeground(Color.WHITE);
         lblTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 
-        // Form panel
+        
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setBackground(new Color(255, 255, 255, 220)); 
         formPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -57,7 +57,7 @@ public class Student_Registration extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Initialize components
+        
         txtRollNo = createStyledTextField();
         txtFirstName = createStyledTextField();
         txtLastName = createStyledTextField();
@@ -66,7 +66,7 @@ public class Student_Registration extends JFrame {
         txtUserName = createStyledTextField();
         txtPassword = createStyledTextField();  
 
-        // Add components to form
+        
         addFormRow(formPanel, gbc, "Roll No:", txtRollNo, 0);
         addFormRow(formPanel, gbc, "First Name:", txtFirstName, 1);
         addFormRow(formPanel, gbc, "Last Name:", txtLastName, 2);
@@ -75,7 +75,7 @@ public class Student_Registration extends JFrame {
         addFormRow(formPanel, gbc, "Username:", txtUserName, 5);
         addFormRow(formPanel, gbc, "Password:", txtPassword, 6);
 
-        // Buttons panel
+        
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         buttonPanel.setOpaque(false);
 
@@ -85,15 +85,15 @@ public class Student_Registration extends JFrame {
         buttonPanel.add(btnRegister);
         buttonPanel.add(btnLogin);
 
-        // Add components to main panel
+        
         mainPanel.add(lblTitle, BorderLayout.NORTH);
         mainPanel.add(formPanel, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Add main panel to frame
+       
         add(mainPanel);
 
-        // Action listeners
+        
         btnRegister.addActionListener((ActionEvent e) -> registerStudent());
         btnLogin.addActionListener((ActionEvent e) -> {
             new StudentLogin().setVisible(true);
@@ -147,7 +147,7 @@ public class Student_Registration extends JFrame {
         String userName = txtUserName.getText();
         String password = txtPassword.getText(); 
 
-        // Validation for empty fields
+        
         if (rollNo.isEmpty() || firstName.isEmpty() || lastName.isEmpty() ||
             department.isEmpty() || studentClass.isEmpty() ||
             userName.isEmpty() || password.isEmpty()) {
@@ -156,7 +156,7 @@ public class Student_Registration extends JFrame {
             return;
         }
 
-        // Database connection and registration logic
+        
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/JavaMini", "root", "system");
             String sql = "INSERT INTO E_student (roll_no, s_first_name, s_last_name, s_department, class, s_user_name, s_password) " +

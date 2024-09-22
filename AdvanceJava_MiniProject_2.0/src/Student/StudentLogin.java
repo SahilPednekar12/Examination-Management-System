@@ -3,11 +3,7 @@ package Student;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class StudentLogin extends JFrame {
     private final JTextField rollNoField;
@@ -17,7 +13,7 @@ public class StudentLogin extends JFrame {
     private final JLabel backgroundLabel;
 
     public StudentLogin() {
-        // Set up the frame
+        
         setTitle("Student Login");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,7 +39,7 @@ public class StudentLogin extends JFrame {
         registerButton.setBackground(new Color(30, 144, 255));
         registerButton.setForeground(Color.WHITE);
 
-        // Create panel for the form
+        
         JPanel formPanel = new JPanel();
         formPanel.setOpaque(false); // Make background transparent
         formPanel.setLayout(new GridBagLayout());
@@ -73,8 +69,8 @@ public class StudentLogin extends JFrame {
         gbc.gridy = 3;
         formPanel.add(registerButton, gbc);
 
-        // Create background image
-        ImageIcon backgroundIcon = new ImageIcon("path/to/your/background/image.jpg"); // Update the path
+        
+        ImageIcon backgroundIcon = new ImageIcon("path/to/your/background/image.jpg"); 
         backgroundLabel = new JLabel(backgroundIcon);
         backgroundLabel.setLayout(new BorderLayout());
         backgroundLabel.add(formPanel, BorderLayout.CENTER);
@@ -96,13 +92,13 @@ public class StudentLogin extends JFrame {
         String rollNo = rollNoField.getText();
         String password = new String(passwordField.getPassword());
 
-        // Check if fields are empty
+        
         if (rollNo.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Roll No and Password cannot be empty", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Proceed with authentication
+        
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/JavaMini", "root", "system");
             String sql = "SELECT * FROM E_student WHERE roll_no = ? AND s_password = ?";
@@ -112,7 +108,7 @@ public class StudentLogin extends JFrame {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                // Successful login
+               
                 new Student_Homepage().setVisible(true);
                 this.dispose();
             } else {
