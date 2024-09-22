@@ -10,8 +10,7 @@ import java.sql.SQLException;
 
 public class Student_Registration extends JFrame {
 
-    private final JTextField txtRollNo, txtFirstName, txtLastName, txtDepartment, txtClass, txtUserName;
-    private final JPasswordField txtPassword;
+    private final JTextField txtRollNo, txtFirstName, txtLastName, txtDepartment, txtClass, txtUserName, txtPassword;
     private final JButton btnRegister, btnLogin;
 
     public Student_Registration() {
@@ -29,8 +28,8 @@ public class Student_Registration extends JFrame {
                 Graphics2D g2d = (Graphics2D) g;
                 int w = getWidth();
                 int h = getHeight();
-                Color color1 = new Color(100, 149, 237); // Cornflower blue
-                Color color2 = new Color(255, 255, 255); // White
+                Color color1 = new Color(100, 149, 237); 
+                Color color2 = new Color(255, 255, 255); 
                 GradientPaint gp = new GradientPaint(0, 0, color1, 0, h, color2);
                 g2d.setPaint(gp);
                 g2d.fillRect(0, 0, w, h);
@@ -47,7 +46,7 @@ public class Student_Registration extends JFrame {
 
         // Form panel
         JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBackground(new Color(255, 255, 255, 220)); // Semi-transparent white
+        formPanel.setBackground(new Color(255, 255, 255, 220)); 
         formPanel.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(new Color(255, 255, 255, 100), 2),
             BorderFactory.createEmptyBorder(20, 20, 20, 20)
@@ -65,7 +64,7 @@ public class Student_Registration extends JFrame {
         txtDepartment = createStyledTextField();
         txtClass = createStyledTextField();
         txtUserName = createStyledTextField();
-        txtPassword = createStyledPasswordField();
+        txtPassword = createStyledTextField();  
 
         // Add components to form
         addFormRow(formPanel, gbc, "Roll No:", txtRollNo, 0);
@@ -105,7 +104,7 @@ public class Student_Registration extends JFrame {
     private JTextField createStyledTextField() {
         JTextField textField = new JTextField(20);
         textField.setFont(new Font("Arial", Font.PLAIN, 14));
-        textField.setBackground(new Color(240, 248, 255)); // Alice Blue
+        textField.setBackground(new Color(240, 248, 255)); 
         textField.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(new Color(100, 149, 237), 1),
             BorderFactory.createEmptyBorder(5, 7, 5, 7)
@@ -113,22 +112,11 @@ public class Student_Registration extends JFrame {
         return textField;
     }
 
-    private JPasswordField createStyledPasswordField() {
-        JPasswordField passwordField = new JPasswordField(20);
-        passwordField.setFont(new Font("Arial", Font.PLAIN, 14));
-        passwordField.setBackground(new Color(240, 248, 255)); // Alice Blue
-        passwordField.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(100, 149, 237), 1),
-            BorderFactory.createEmptyBorder(5, 7, 5, 7)
-        ));
-        return passwordField;
-    }
-
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.BOLD, 14));
         button.setForeground(Color.BLACK);
-        button.setBackground(new Color(70, 130, 180)); // Steel blue
+        button.setBackground(new Color(70, 130, 180)); 
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -138,7 +126,7 @@ public class Student_Registration extends JFrame {
     private void addFormRow(JPanel panel, GridBagConstraints gbc, String labelText, JComponent component, int row) {
         JLabel label = new JLabel(labelText);
         label.setFont(new Font("Arial", Font.BOLD, 14));
-        label.setForeground(new Color(25, 25, 112)); // Midnight Blue
+        label.setForeground(new Color(25, 25, 112)); 
 
         gbc.gridx = 0;
         gbc.gridy = row;
@@ -157,7 +145,7 @@ public class Student_Registration extends JFrame {
         String department = txtDepartment.getText();
         String studentClass = txtClass.getText();
         String userName = txtUserName.getText();
-        String password = new String(txtPassword.getPassword());
+        String password = txtPassword.getText(); 
 
         // Validation for empty fields
         if (rollNo.isEmpty() || firstName.isEmpty() || lastName.isEmpty() ||
