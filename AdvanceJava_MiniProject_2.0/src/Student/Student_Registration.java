@@ -151,7 +151,52 @@ public class Student_Registration extends JFrame {
     }
 
     private void registerStudent() {
-        // ... (rest of the method remains the same)
+        String rollNo = txtRollNo.getText();
+        String firstName = txtFirstName.getText();
+        String lastName = txtLastName.getText();
+        String department = txtDepartment.getText();
+        String studentClass = txtClass.getText();
+        String userName = txtUserName.getText();
+        String password = new String(txtPassword.getPassword());
+
+        // Validation for empty fields
+        if (rollNo.isEmpty() || firstName.isEmpty() || lastName.isEmpty() ||
+            department.isEmpty() || studentClass.isEmpty() ||
+            userName.isEmpty() || password.isEmpty()) {
+
+            JOptionPane.showMessageDialog(this, "All fields are required.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Database connection and registration logic
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/JavaMini", "root", "system");
+            String sql = "INSERT INTO E_student (roll_no, first_name, last_name, department, class, username, s_password) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, Integer.parseInt(rollNo));
+            stmt.setString(2, firstName);
+            stmt.setString(3, lastName);
+            stmt.setString(4, department);
+            stmt.setString(5, studentClass);
+            stmt.setString(6, userName);
+            stmt.setString(7, password);
+
+            int rowsInserted = stmt.executeUpdate();
+
+            if (rowsInserted > 0) {
+                JOptionPane.showMessageDialog(this, "Student registered successfully.");
+                new StudentLogin().setVisible(true);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error registering student. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+            conn.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Database connection error. Please try again later.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public static void main(String[] args) {

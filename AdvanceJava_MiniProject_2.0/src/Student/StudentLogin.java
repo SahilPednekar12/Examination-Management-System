@@ -83,7 +83,7 @@ public class StudentLogin extends JFrame {
 
         // Add action listeners
         submitButton.addActionListener((ActionEvent e) -> {
-            authenticateUser();
+            validateAndAuthenticateUser();
         });
 
         registerButton.addActionListener((ActionEvent e) -> {
@@ -92,10 +92,17 @@ public class StudentLogin extends JFrame {
         });
     }
 
-    private void authenticateUser() {
+    private void validateAndAuthenticateUser() {
         String rollNo = rollNoField.getText();
         String password = new String(passwordField.getPassword());
 
+        // Check if fields are empty
+        if (rollNo.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Roll No and Password cannot be empty", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Proceed with authentication
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/JavaMini", "root", "system");
             String sql = "SELECT * FROM E_student WHERE roll_no = ? AND s_password = ?";
